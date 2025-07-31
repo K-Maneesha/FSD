@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Netflix Replica</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+      background-color: #141414;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: #b3b3b3;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    a:hover {
+      color: #fff;
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(20, 20, 20, 0.95);
+      padding: 18px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      border-bottom: 1px solid #333;
+    }
+
+    .logo {
+      font-size: 30px;
+      font-weight: 700;
+      color: #e50914;
+      letter-spacing: 1.5px;
+      user-select: none;
+    }
+
+    nav a {
+      margin-left: 30px;
+      font-weight: 500;
+      font-size: 15px;
+      user-select: none;
+    }
+
+    nav a:active {
+      color: #e50914;
+    }
+
+    .hero {
+      background: url('img.png') center center / cover no-repeat;
+      height: 95vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 100px;
+      position: relative;
+      text-align: center;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #141414 20%, rgba(20, 20, 20, 0.4));
+      z-index: 0;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      max-width: 900px;
+      line-height: 1.3;
+      background: rgba(20, 20, 20, 0.85);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #e50914;
+      z-index: 1;
+      position: relative;
+      user-select: none;
+    }
+
+    section {
+      width: 100vw;
+      overflow: hidden;
+      margin-top: 80px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid #222;
+    }
+
+    h2 {
+      font-size: 32px;
+      margin: 0 25px 30px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      user-select: none;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 50px;
+      height: 3px;
+      background: #e50914;
+      border-radius: 2px;
+    }
+
+    .row {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding: 0 25px 40px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: #666 transparent;
+      user-select: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .row::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .row::-webkit-scrollbar-thumb {
+      background-color: #666;
+      border-radius: 20px;
+      transition: background-color 0.3s ease;
+    }
+
+    .row::-webkit-scrollbar-thumb:hover {
+      background-color: #e50914;
+    }
+
+    .item {
+      scroll-snap-align: start;
+      position: relative;
+      width: 100%;
+      height: 270px;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.7);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      background: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+    }
+
+    .item img {
+      max-height: 260px;
+      max-width: 100%;
+      object-fit: contain;
+      border-radius: 8px;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .item:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 25px rgba(229, 9, 20, 0.9);
+      z-index: 10;
+    }
+
+    .item:hover img {
+      transform: scale(1.15);
+    }
+
+    .item:hover::after {
+      content: '▶';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 36px;
+      color: #fff;
+      pointer-events: none;
+      background: rgba(229, 9, 20, 0.85);
+      padding: 14px 18px;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #e50914;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      padding: 40px 20px;
+      color: #666;
+      border-top: 1px solid #333;
+      margin-top: 40px;
+      user-select: none;
+    }
+
+    footer a {
+      color: #666;
+      margin: 0 10px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #e50914;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 28px;
+        padding: 20px 25px;
+      }
+
+      nav a {
+        margin-left: 18px;
+        font-size: 14px;
+      }
+
+      .row {
+        gap: 16px;
+        padding: 0 18px 30px;
+      }
+
+      .item {
+        height: 210px;
+        min-width: 140px;
+      }
+
+      .item:hover {
+        transform: scale(1.08);
+      }
+
+      .item:hover img {
+        transform: scale(1.1);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">NETFLIX</div>
+    <nav>
+      <a href="#tv">TV Shows</a>
+      <a href="#movies">Movies</a>
+      <a href="#mylist">My List</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>Unlimited movies, TV shows, and more. Watch anywhere. Cancel anytime.</h1>
+  </div>
+
+  <section id="tv">
+    <h2>📺 Popular TV Shows</h2>
+    <div class="row">
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BZjkxZWJiNTUtYjQwYS00MTBlLTgwODQtM2FkNWMyMjMwOGZiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="TV Show 1" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKTG73Z1JLBy1p229aiCYMzO6RA3eHTQ5G4w&s" alt="TV Show 2" /></div>
+      <div class="item"><img src="https://i.pinimg.com/originals/15/58/66/15586618c27db8a5634d7faab6b1d197.jpg" alt="TV Show 3" /></div>
+      <div class="item"><img src="https://upload.wikimedia.org/wikipedia/en/d/da/DarkNetflixPosterEnglish.jpg" alt="TV Show 4" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHtjjfArHKA8CIaYoqTuWD4PGC9pr-Dlp_2Q&s" alt="TV Show 5" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnfpj-FEcamLa1bGXd2bWyt8mgPHYTYr1O8g&s" alt="TV Show 6" /></div>
+    </div>
+  </section>
+
+  <section id="movies">
+    <h2>🎬 Trending Movies</h2>
+    <div class="row">
+      <div class="item"><img src="https://upload.wikimedia.org/wikipedia/en/0/07/Infinite_%282021_film%29_release_poster.jpeg" alt="Movie 1" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUFXZx9DOfawxQcow1lB5voZxX50Ae-1jOIw&s" alt="Movie 2" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSb27q18Yl4FMbPnB4EjfRDhfqLwQkXg7h3Yg&s" alt="Movie 3" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsApY-xIxr420PuzLsBrlGAAJ2O_QzxyEf1g&s" alt="Movie 4" /></div>
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BNDAyYjZmNjctOWE2Mi00ZDBiLWE2YjEtMWM1YmM0NmYzOGQwXkEyXkFqcGc@._V1_.jpg" alt="Movie 5" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwgt2pK80whr94_XdRHLBZisneIt4MoMFRAQ&s" alt="Movie 6" /></div>
+    </div>
+  </section>
+
+  <section id="mylist">
+    <h2>⭐ My List</h2>
+    <div class="row">
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BNGY1YjBiNzMtYWZhNC00OWViLWE0MzItNjc4YzczOGNiM2I0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="List 1" /></div>
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BYTU3ZDVhNmMtMDVlNC00MDc0LTgwNDMtYWE5MTI2ZGI4YWIwXkEyXkFqcGc@._V1_.jpg" alt="List 2" /></div>
+      <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwx8Ep5-R_TKqcwajoHUVsp4J1PPqrp_4WEw&s" alt="List 3" /></div>
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BMTQ5MDU5MTktMDZkMy00NDU1LWIxM2UtODg5OGFiNmRhNDBjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="List 4" /></div>
+       <div class="item"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJqDkfhtW1XSkmMVj5kRyeI09VAy4WCyKExA&s" alt="List 4" /></div>
+      <div class="item"><img src="https://m.media-amazon.com/images/M/MV5BZGM4OWUwYjUtODA1My00ZjgxLWE5NjQtYTg4MzA2MjQ1NWU4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="List 5" /></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Questions? Call 000-800-040-1843</p>
+    <p>
+      <a href="#">FAQ</a> |
+      <a href="#">Help Center</a> |
+      <a href="#">Terms of Use</a>
+    </p>
+    <p>© 2025 Netflix Replica</p>
+  </footer>
+
+</body>
+</html>
